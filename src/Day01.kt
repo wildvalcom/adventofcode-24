@@ -1,18 +1,54 @@
+import kotlin.math.abs
+
 fun main() {
+    fun getLists(input: List<String>): Pair<MutableList<Int>, MutableList<Int>> {
+        val leftList = mutableListOf<Int>()
+        val rightList = mutableListOf<Int>()
+
+        // Parse the numbers into two separate lists
+        input.forEach { line ->
+            val columns = line.trim().split("\\s+".toRegex())
+            if (columns.size == 2) {
+                leftList.add(columns[0].toInt())
+                rightList.add(columns[1].toInt())
+            }
+        }
+
+        return Pair(leftList, rightList)
+    }
     fun part1(input: List<String>): Int {
-        return input.size
+        val (leftList, rightList) = getLists(input)
+
+        leftList.sort()
+        rightList.sort()
+
+        var totalDistance = 0;
+        // Calculate the total distance
+        for (i in leftList.indices) {
+            totalDistance += abs(rightList[i] - leftList[i])
+        }
+
+        println("Total distance: $totalDistance")
+        return totalDistance
     }
 
     fun part2(input: List<String>): Int {
-        return input.size
+        val (leftList, rightList) = getLists(input)
+
+        var totalDistance = 0;
+        // Calculate the total distance
+        for (leftListItem in leftList) {
+            val count = rightList.count { it == leftListItem }
+            totalDistance += leftListItem * count
+        }
+
+        println("Total distance: $totalDistance")
+        return totalDistance
     }
 
-    // Test if implementation meets criteria from the description, like:
-    check(part1(listOf("test_input")) == 1)
-
-    // Or read a large test input from the `src/Day01_test.txt` file:
+    // Read a large test input from the `src/Day01_test.txt` file:
     val testInput = readInput("Day01_test")
-    check(part1(testInput) == 1)
+    check(part2(testInput) == 31)
 
     // Read the input from the `src/Day01.txt` file.
     val input = readInput("Day01")

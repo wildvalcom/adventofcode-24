@@ -13,3 +13,7 @@ tasks {
         gradleVersion = "8.11"
     }
 }
+
+kotlin {
+    jvmToolchain(17)
+}
